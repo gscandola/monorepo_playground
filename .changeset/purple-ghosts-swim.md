@@ -1,0 +1,5 @@
+---
+"pkg-b": minor
+---
+
+Shrugify
