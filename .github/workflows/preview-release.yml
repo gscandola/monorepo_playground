@@ -44,7 +44,7 @@ jobs:
           title: "chore(pre-release): bump version"
           commit: "chore(pre-release): bump version"
           version: "pnpm changeset version"
-          publish: "echo \"Deploy to preview environment\""
+          publish: "pnpm changeset publish"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
