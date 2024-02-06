@@ -1,0 +1,1 @@
+- Updated default branch from `main` to `develop`
