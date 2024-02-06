@@ -1,5 +1,11 @@
 # pkg-c
 
+## 0.0.2-pre.3
+
+### Patch Changes
+
+- b9cebc2: Add wonderful UnicorN
+
 ## 0.0.2-pre.2
 
 ### Patch Changes
