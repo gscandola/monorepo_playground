@@ -8,22 +8,31 @@ on:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  release:
-    name: Release
+  pre-release:
+    name: Pre-Release
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      pull-requests: write
+      statuses: write
+      contents: write
+      issues: write
+      security-events: write
+      pages: read
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js 20
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
+        uses: actions/checkout@v4
 
       - name: Install PNPM
         uses: pnpm/action-setup@v2
         with:
           version: 8
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
 
       - name: Install Dependencies
         run: pnpm install
