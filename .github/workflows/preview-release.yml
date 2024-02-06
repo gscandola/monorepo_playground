@@ -1,0 +1,44 @@
+name: Preview Release
+
+on:
+  push:
+    branches:
+      - develop
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Create PreRelease Pull Request
+        uses: changesets/action@v1
+        id: changesets
+        with:
+          title: "chore(pre-release): bump version"
+          commit: "chore(pre-release): bump version"
+          version: "pnpm changeset version"
+          publish: "echo \"Deploy to preview environment\""
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Test Debug
+        if: steps.changesets.outputs.published == 'true'
+        run: echo "Launch CircleCI deploy pipeline"
