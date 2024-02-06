@@ -1,5 +1,11 @@
 # pkg-b
 
+## 0.1.0-pre.2
+
+### Minor Changes
+
+- e45d0d2: add emoji
+
 ## 0.1.0-pre.1
 
 ### Minor Changes
