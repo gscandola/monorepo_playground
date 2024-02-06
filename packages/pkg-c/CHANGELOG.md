@@ -1,5 +1,11 @@
 # pkg-c
 
+## 0.0.2-pre.2
+
+### Patch Changes
+
+- 84f2abd: Owiiiiii
+
 ## 0.0.2-pre.1
 
 ### Patch Changes
