@@ -53,3 +53,13 @@ jobs:
         env:
           OUTPUT: ${{steps.changesets.outputs.publishedPackages}}
         run: echo "$OUTPUT"
+
+      - name: Pre Exit on main
+        if: steps.changesets.outputs.published == 'true'
+        run: |
+          git checkout -B main origin/main
+          git merge origin/develop --no-ff -m "chore(release): merge work from develop"
+          pnpm changeset pre exit
+          git add .
+          git commit -m 'chore(release): exit pre-release mode'
+          git push origin main
