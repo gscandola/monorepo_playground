@@ -32,7 +32,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install Dependencies
         run: pnpm install
@@ -50,4 +50,6 @@ jobs:
 
       - name: Test Debug
         if: steps.changesets.outputs.published == 'true'
-        run: echo "Launch CircleCI deploy pipeline"
+        env:
+          OUTPUT: ${{steps.changesets.outputs.publishedPackages}}
+        run: echo "$OUTPUT"
