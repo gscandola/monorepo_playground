@@ -6,5 +6,8 @@
     "pkg-b": "0.0.1",
     "pkg-c": "0.0.1"
   },
-  "changesets": []
+  "changesets": [
+    "long-boats-think",
+    "purple-pumas-learn"
+  ]
 }
