@@ -57,7 +57,7 @@ jobs:
       - name: Pre Exit on main
         if: steps.changesets.outputs.published == 'true'
         run: |
-          git checkout --progress --force -B main refs/remotes/origin/main
+          git checkout main
           git merge origin/develop --no-ff -m "chore(release): merge work from develop"
           pnpm changeset pre exit
           git add .
