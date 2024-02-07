@@ -39,7 +39,7 @@ jobs:
 
       - name: Create PreRelease Pull Request
         uses: changesets/action@v1
-        id: changesets
+        id: changesets_prerelease
         with:
           title: "chore(pre-release): bump version"
           commit: "chore(pre-release): bump version"
@@ -48,23 +48,49 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Test Debug
-        if: steps.changesets.outputs.published == 'true'
+      - name: Deploy to preview environment
+        if: steps.changesets_prerelease.outputs.published == 'true'
         env:
-          OUTPUT: ${{steps.changesets.outputs.publishedPackages}}
-        run: echo "$OUTPUT"
+          OUTPUT: ${{steps.changesets_prerelease.outputs.publishedPackages}}
+        run: echo "Published preview $OUTPUT"
 
-      - name: Checkout Repo on Main branch
-        if: steps.changesets.outputs.published == 'true'
-        uses: actions/checkout@v4
+      - name: Create Release Pull Request
+        uses: changesets/action@v1
+        id: changesets_release
+        if: steps.changesets_prerelease.outputs.published == 'true'
         with:
-          ref: "main"
+          title: "chore(release): bump version"
+          commit: "chore(release): bump version"
+          version: "pnpm changeset pre exit && pnpm changeset version && pnpm changeset pre enter pre"
+          # Will never be executed
+          # publish: "pnpm changeset publish"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Pre Exit on main
-        if: steps.changesets.outputs.published == 'true'
-        run: |
-          git merge origin/develop --no-ff -m "chore(release): merge work from develop"
-          pnpm changeset pre exit
-          git add .
-          git commit -m 'chore(release): exit pre-release mode'
-          git push origin main
+      # Will never be executed
+      # - name: Deploy to live environment
+      #   if: steps.changesets_release.outputs.published == 'true'
+      #   env:
+      #     OUTPUT: ${{steps.changesets_release.outputs.publishedPackages}}
+      #   run: echo "Published preview $OUTPUT"
+
+      # - name: Test Debug
+      #   if: steps.changesets.outputs.published == 'true'
+      #   env:
+      #     OUTPUT: ${{steps.changesets.outputs.publishedPackages}}
+      #   run: echo "$OUTPUT"
+
+      # - name: Checkout Repo on Main branch
+      #   if: steps.changesets.outputs.published == 'true'
+      #   uses: actions/checkout@v4
+      #   with:
+      #     ref: "main"
+
+      # - name: Pre Exit on main
+      #   if: steps.changesets.outputs.published == 'true'
+      #   run: |
+      #     git merge origin/develop --no-ff -m "chore(release): merge work from develop"
+      #     pnpm changeset pre exit
+      #     git add .
+      #     git commit -m 'chore(release): exit pre-release mode'
+      #     git push origin main
