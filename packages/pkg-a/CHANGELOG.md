@@ -1,5 +1,16 @@
 # pkg-a
 
+## 0.2.0
+
+### Minor Changes
+
+- 68db16f: Add emoji
+- 2e1be50: add greetings
+
+### Patch Changes
+
+- 33dae65: add question mark
+
 ## 0.2.0-pre.2
 
 ### Minor Changes
