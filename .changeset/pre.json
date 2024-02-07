@@ -2,22 +2,9 @@
   "mode": "pre",
   "tag": "pre",
   "initialVersions": {
-    "pkg-a": "0.1.0",
-    "pkg-b": "0.0.1",
-    "pkg-c": "0.0.1"
+    "pkg-a": "0.2.0",
+    "pkg-b": "0.1.0",
+    "pkg-c": "0.0.2"
   },
-  "changesets": [
-    "long-boats-think",
-    "many-moons-teach",
-    "moody-elephants-pretend",
-    "purple-ghosts-swim",
-    "purple-pumas-learn",
-    "slimy-squids-own",
-    "small-turtles-guess",
-    "soft-mirrors-remember",
-    "two-carrots-listen",
-    "wicked-cheetahs-scream",
-    "wicked-ways-arrive",
-    "young-lobsters-lie"
-  ]
+  "changesets": []
 }
