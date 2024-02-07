@@ -1,5 +1,5 @@
 {
     "name": "pkg-a",
     "private": true,
-    "version": "0.4.0-pre.1"
+    "version": "0.4.0"
 }

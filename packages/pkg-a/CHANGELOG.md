@@ -1,5 +1,12 @@
 # pkg-a
 
+## 0.4.0
+
+### Minor Changes
+
+- f4ee6dc: Mention Leroy Jenkins
+- deeb3af: Oui oui
+
 ## 0.4.0-pre.1
 
 ### Minor Changes
