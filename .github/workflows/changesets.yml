@@ -90,4 +90,5 @@ jobs:
           version: "pnpm ci:version:release"
           # No publish command here, this step exist only to create Release Pull Request
           # The previous "changsets related" action will take care of the publishing
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
