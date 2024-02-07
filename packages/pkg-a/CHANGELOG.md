@@ -1,5 +1,11 @@
 # pkg-a
 
+## 0.2.0-pre.2
+
+### Minor Changes
+
+- 68db16f: Add emoji
+
 ## 0.2.0-pre.1
 
 ### Patch Changes
