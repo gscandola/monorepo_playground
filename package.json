@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "ci:version:prerelease": "pnpm changeset version",
-    "ci:version:release": "pnpm changeset version && pnpm changeset pre enter pre",
+    "ci:version:release": "pnpm changeset pre exit && pnpm changeset version && pnpm changeset pre enter pre",
     "ci:publish": "pnpm changeset publish"
   },
   "dependencies": {
