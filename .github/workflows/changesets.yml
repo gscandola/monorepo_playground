@@ -1,14 +1,14 @@
-name: Changesets versioning
+name: Changesets
 
 on:
   push:
     branches:
-      - develop
+      - main
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  run-changeset:
+  run-changesets:
     name: Run changesets
     runs-on: ubuntu-latest
     # TODO Permission are set on repository settings and should be enough
@@ -24,7 +24,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install pnpm 8
+      - name: Setup PNPM 8
         uses: pnpm/action-setup@v2
         with:
           version: 8
@@ -42,13 +42,12 @@ jobs:
         uses: changesets/action@v1
         id: changesets
         with:
-          # Branch is always in pre-release mode :
+          # `main` branch is always in pre-release mode:
           #  - if changesets are detected we know that associated Pull Request will be pre-release related.
           #  - if no changesets are detected the pre-release or release Pull Request just got merged and action must publish pre-release(s) or release(s) tag(s)
-          title: "chore(pre-release): bump version"
-          commit: "chore(pre-release): bump version"
+          title: "🕵️ Pre-release on Preview environment"
+          commit: "chore(version): bump for pre-release"
           version: "pnpm ci:version:prerelease"
-          # This publish action will be used both for PreRelease and Release publishing
           publish: "pnpm ci:publish"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -80,12 +79,11 @@ jobs:
       #  - there is no publish command indicated, thus nothing is published from this step
       - name: Create Release Pull Request
         uses: changesets/action@v1
-        id: changesets_release
         if: steps.changesets.outputs.published == 'true'
         with:
-          title: "chore(release): bump version"
-          commit: "chore(release): bump version"
-          # Check commands called behind this script in `package.json`
+          title: "🚀 Release on Live environment"
+          commit: "chore(version): bump for release"
+          # (For more information, look commands called behind this script in `package.json`)
           # It exit pre-release mode (again, because changesets/action GHAction proceed to an hard reset)
           # It run the changeset version command (to locally bump package with release and clean changsets files)
           # It re-enter in pre-release mode to ensure branch will always be in pre-release

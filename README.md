@@ -1,17 +1,21 @@
 - ~~Updated default branch from `main` to `develop`~~
   - Must be abandoned, does not fit our workflow
 
+# TODO
+
+See if it's possible to put automatically the ticket number (from branch naming) in the changeset summary text.
+
 ## Output examples of changesets publish action
 
 `publishedPackages` from GH Action output.
 
-### Release
+### Pre-Release
 ```
 [{"name":"pkg-c","version":"0.0.2-pre.3"}]
 ```
 
 
-### Pre-Release
+### Release
 
 ```
 [{"name":"pkg-a","version":"0.3.0"}]
@@ -51,3 +55,9 @@ The "depth -1" do the trick display only projects. Useful in a monorepo. Lists a
 ]
 ```
 
+Notes:
+- Use path to differentiates apps and packages:
+  - `/apps/` = wl app with self hosted shell
+  - `/packages/`
+    - `private: true` : nothing to publish, package is private (consumed from the workspace)
+    - `private: false` (or missing): invoke publish command from the package (we don't care where it is published, but probably Code Artifact)
