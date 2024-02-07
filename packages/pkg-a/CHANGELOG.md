@@ -1,5 +1,11 @@
 # pkg-a
 
+## 0.4.0-pre.1
+
+### Minor Changes
+
+- deeb3af: Oui oui
+
 ## 0.4.0-pre.0
 
 ### Minor Changes
