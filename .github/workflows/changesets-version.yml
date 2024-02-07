@@ -1,0 +1,95 @@
+name: Changesets versioning
+
+on:
+  push:
+    branches:
+      - develop
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  run-changeset:
+    name: Run changesets
+    runs-on: ubuntu-latest
+    # TODO Permission are set on repository settings and should be enough
+    # permissions:
+    #   actions: write
+    #   pull-requests: write
+    #   statuses: write
+    #   contents: write
+    #   issues: write
+    #   security-events: write
+    #   pages: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm 8
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Handle pre-release (PR and Publish) and release (Publish)
+        uses: changesets/action@v1
+        id: changesets
+        with:
+          # Branch is always in pre-release mode :
+          #  - if changesets are detected we know that associated Pull Request will be pre-release related.
+          #  - if no changesets are detected the pre-release or release Pull Request just got merged and action must publish pre-release(s) or release(s) tag(s)
+          title: "chore(pre-release): bump version"
+          commit: "chore(pre-release): bump version"
+          version: "pnpm ci:version:prerelease"
+          # This publish action will be used both for PreRelease and Release publishing
+          publish: "pnpm ci:publish"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # This step runs only if `changesets` step published something (pre-release(s) or release(s))
+      # CircleCI will deduce:
+      #  - app to build, from the published packages
+      #  - env to target, from the published version number
+      - name: Trigger CircleCI for deploy
+        if: steps.changesets.outputs.published == 'true'
+        env:
+          PACKAGES: ${{steps.changesets.outputs.publishedPackages}}
+        run: echo "Published = $PACKAGES"
+
+      # This step runs only if `changesets` step published something (pre-release(s) or release(s))
+      # But we really need it only when published packages are pre-releases related.
+      # It exit pre-release mode to ensure next step (changesets/action) will detect something to do to (final) release
+      # This step will run when published packages are pre-releases related but it does not matter.
+      - name: Exit Pre-Release mode
+        if: steps.changesets.outputs.published == 'true'
+        run: pnpm changeset pre exit
+
+      # This step runs only if `changesets` step published something (pre-release(s) or release(s))
+      # But we really need it only when published packages are pre-releases related.
+      # It configure Release PR title and commit message, and also call project script to trigger the versioning
+      # This step will run when published packages are pre-releases related but it does not matter, this action will simply
+      # ends in "nothing to do" since:
+      #  - there won't be any changeset to consume as previous changesets/action already take care of it
+      #  - there is no publish command indicated, thus nothing is published from this step
+      - name: Create Release Pull Request
+        uses: changesets/action@v1
+        id: changesets_release
+        if: steps.changesets.outputs.published == 'true'
+        with:
+          title: "chore(release): bump version"
+          commit: "chore(release): bump version"
+          # Check commands called behind this script in `package.json`
+          # It exit pre-release mode (again, because changesets/action GHAction proceed to an hard reset)
+          # It run the changeset version command (to locally bump package with release and clean changsets files)
+          # It re-enter in pre-release mode to ensure branch will always be in pre-release
+          version: "pnpm ci:version:release"
+          # No publish command here, this step exist only to create Release Pull Request
+          # The previous "changsets related" action will take care of the publishing
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
