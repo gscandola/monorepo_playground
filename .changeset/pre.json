@@ -2,12 +2,9 @@
   "mode": "pre",
   "tag": "pre",
   "initialVersions": {
-    "pkg-a": "0.2.0",
+    "pkg-a": "0.3.0",
     "pkg-b": "0.1.0",
     "pkg-c": "0.0.2"
   },
-  "changesets": [
-    "fresh-lobsters-float",
-    "ninety-terms-fly"
-  ]
+  "changesets": []
 }
