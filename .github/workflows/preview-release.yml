@@ -54,6 +54,10 @@ jobs:
           OUTPUT: ${{steps.changesets_prerelease.outputs.publishedPackages}}
         run: echo "Published preview $OUTPUT"
 
+      - name: Exit Pre-Release mode
+        if: steps.changesets_prerelease.outputs.published == 'true'
+        run: pnpm changeset pre exit
+
       - name: Create Release Pull Request
         uses: changesets/action@v1
         id: changesets_release
@@ -61,7 +65,7 @@ jobs:
         with:
           title: "chore(release): bump version"
           commit: "chore(release): bump version"
-          version: "pnpm changeset pre exit && pnpm changeset version && pnpm changeset pre enter pre"
+          version: "pnpm changeset version && pnpm changeset pre enter pre"
           # Will never be executed
           # publish: "pnpm changeset publish"
         env:
