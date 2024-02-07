@@ -1,5 +1,11 @@
 # pkg-a
 
+## 0.3.0-pre.1
+
+### Patch Changes
+
+- 44ea931: Add missing emoji, toutes mes confuses
+
 ## 0.3.0-pre.0
 
 ### Minor Changes
