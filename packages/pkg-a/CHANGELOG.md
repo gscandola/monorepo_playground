@@ -1,5 +1,11 @@
 # pkg-a
 
+## 0.3.0-pre.0
+
+### Minor Changes
+
+- e065976: Add youpi
+
 ## 0.2.0
 
 ### Minor Changes
