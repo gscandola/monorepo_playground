@@ -137,6 +137,15 @@ This distinction in version numbers allows us to determine the tageted environme
   -  Live environment **without** self hosted shell
   -  Preview environment with self hosted shell (to be synced with live env)
 
+TODO: investiguate on the possibility to do this deduction in GHAction to determine "workflow pipeline parameter" that could be send to CircleCi, like : `with: preRelease: true|false`.
+
+It may easi the conditional workflow on ci side with some:
+- `when: equal [true, <<pipeline.parameters.preRelease>>]`
+  - Build preview and deploy preview
+- `when: equal [false, <<pipeline.parameters.preRelease>>]`
+  - Build preview and deploy preview
+  - Build live and deploy live
+
 #### Targeted mfe
 
 Provided published packages name allows us to determine:
