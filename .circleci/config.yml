@@ -24,7 +24,7 @@ jobs:
           command: |
             .circleci/scripts/generate_config.sh ${TARGET_VERSIONS}
       - continuation/continue:
-          configuration_path: generated_config.yml # use newly generated config to continue
+          configuration_path: continue_config.yml # use freshly updated config to continue
           parameters: '{"isPreRelease":true}'
 
 # our single workflow, that triggers the setup job defined above
