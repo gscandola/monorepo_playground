@@ -18,7 +18,7 @@ jobs:
           name: Computed targeted package from published packages
           command: |
             # mock code to calculate TARGET_PACKAGES
-            echo "export TARGET_PACKAGES='['@sp/app-form','@sp/shell-form']'" >> "$BASH_ENV"
+            echo "export TARGET_PACKAGES='[\"@sp/app-form\",\"@sp/shell-form\"]'" >> "$BASH_ENV"
       - run:
           name: Generate Pipeline continue_config.yml file
           command: |
