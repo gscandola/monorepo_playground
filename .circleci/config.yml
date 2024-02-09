@@ -3,11 +3,20 @@ version: 2.1
 # this allows you to use CircleCI's dynamic configuration feature
 setup: true
 
-# --------------- Parameters ---------------
+# --------------- Parameters (from Github Actions) ---------------
 parameters:
-  isPreRelease:
-    type: boolean
-    default: false
+    GHA_Actor:
+        type: string
+        default: ''
+    GHA_Action:
+        type: string
+        default: ''
+    GHA_Event:
+        type: string
+        default: ''
+    GHA_Meta:
+        type: string
+        default: ''
 
 # the continuation orb is required in order to use dynamic configuration
 orbs:
@@ -29,22 +38,14 @@ jobs:
           name: Generate Pipeline continue_config.yml file
           command: |
             .circleci/scripts/generate_config.sh
-      # see https://circleci.com/docs/reusing-config/#defining-conditional-steps
-      - when:
-          condition: << pipeline.parameters.isPreRelease >>
-          steps:
-            - continuation/continue:
-                configuration_path: .circleci/continue_config.yml # use freshly updated config to continue
-                parameters: '{"isPreRelease":true}'
-      - unless:
-          condition: << pipeline.parameters.isPreRelease >>
-          steps:
-            - continuation/continue:
-                configuration_path: .circleci/continue_config.yml # use freshly updated config to continue
-                parameters: '{"isPreRelease":false}'
+      - continuation/continue:
+          configuration_path: .circleci/continue_config.yml # use freshly updated config to continue
+          parameters: '{"GHA_Meta":<< pipeline.parameters.GHA_Meta >>}'
 
 # our single workflow, that triggers the setup job defined above
 workflows:
   setup:
+    # Workflow run when CI was triggered from a GHAction
+    when: << pipeline.parameters.GHA_Action >>
     jobs:
       - setup

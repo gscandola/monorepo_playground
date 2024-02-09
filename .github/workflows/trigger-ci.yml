@@ -1,0 +1,16 @@
+# Testing purpose: trigger pipeline on each merge on main
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  trigger-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.1.0
+        with:
+          #Value put here to test between pre-release and release
+          GHA_Meta: "pre-release"
+        env:
+          CCI_TOKEN: ${{ secrets.CCI_TOKEN }}
