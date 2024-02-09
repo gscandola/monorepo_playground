@@ -13,12 +13,19 @@ jobs:
     executor: continuation/default
     steps:
       - checkout # checkout code
-      - run: # run a command
-          name: Generate config
+        # https://discuss.circleci.com/t/dynamically-set-parameter-values-of-matrix/47172
+      - run:
+          name: Computed targeted package from published packages
           command: |
-            ./generate-config > generated_config.yml
+            # mock code to calculate TARGET_PACKAGES
+            echo "export TARGET_PACKAGES='['@sp/app-form','@sp/shell-form']'" >> "$BASH_ENV"
+      - run:
+          name: Generate Pipeline continue_config.yml file
+          command: |
+            ./scripts/ci/generate_config.sh ${TARGET_VERSIONS}
       - continuation/continue:
           configuration_path: generated_config.yml # use newly generated config to continue
+          parameters: "{isPreRelease:true}"
 
 # our single workflow, that triggers the setup job defined above
 workflows:

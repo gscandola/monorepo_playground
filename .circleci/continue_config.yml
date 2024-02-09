@@ -1,0 +1,142 @@
+version: 2.1
+
+# --------------- Parameters ---------------
+parameters:
+  GHA_Actor:
+    type: string
+    default: ""
+  GHA_Action:
+    type: string
+    default: ""
+  GHA_Event:
+    type: string
+    default: ""
+  GHA_Meta:
+    type: string
+    default: ""
+  # Computed from the setup workflow (dynamic config)
+  isPreRelease:
+    type: boolean
+    default: true
+
+# --------------- Alias ---------------
+default_docker: &default_docker
+  - image: cimg/node:lts
+
+# --------------- Commands ---------------
+commands:
+  install_dependencies:
+    description: "Dependencies installation"
+    steps:
+      - run:
+          name: "Installing dependencies"
+          command: pnpm install
+
+  setup:
+    description: "Setup project"
+    steps:
+      - checkout
+      # No need to install pnpm, cimg/node:lts already bring it
+      - install_dependencies
+
+  build:
+    description: "Build the appplication"
+    parameters:
+      target_env:
+        type: string
+      package:
+        type: string
+    steps:
+      - run:
+          name: Build
+          command: |
+            echo "Built << parameters.package >> for << parameters.target_env >> !"
+  deploy:
+    parameters:
+      target_env:
+        type: string
+      package:
+        type: string
+    steps:
+      - run:
+          name: Deploy
+          command: |
+            echo "Deployed << parameters.package >> on << parameters.target_env >> !"
+
+# --------------- Jobs ---------------
+jobs:
+  test:
+    docker: *default_docker
+    resource_class: small
+    steps:
+      - setup
+      - run:
+          name: Run tests
+          command: echo "Tests succeed"
+  build-preview:
+    docker: *default_docker
+    resource_class: small
+    parameters:
+      package:
+        type: string
+    steps:
+      - build:
+          target_env: "preview"
+          package: << parameters.package >>
+
+  deploy-preview:
+    docker: *default_docker
+    resource_class: small
+    parameters:
+      package:
+        type: string
+    steps:
+      - deploy:
+          target_env: "preview"
+          package: << parameters.package >>
+
+  # build-live:
+  #   docker: *default_docker
+  #   resource_class: small
+  #   steps:
+  #     - build:
+  #         target_env: "live"
+
+  # deploy-live:
+  #   docker: *default_docker
+  #   resource_class: small
+  #   steps:
+  #     - deploy:
+  #         target_env: "live"
+
+# --------------- Jobs ---------------
+workflows:
+  build_deploy_preview:
+    when:
+      equal: [true, << pipeline.parameters.isPreRelease >>]
+    jobs:
+      - build-preview:
+          matrix:
+            parameters:
+              # Dynamically injected and written during setup phase
+              package: []
+      - deploy-preview:
+          matrix:
+            parameters:
+              # Dynamically injected and written during setup phase
+              package: []
+          requires:
+            - build-preview
+  # build_deploy_preview_and_live:
+  #   when:
+  #     and:
+  #       - equal: ["release", << pipeline.parameters.GHA_Action >>]
+  #   jobs:
+  #     - build-preview
+  #     - deploy-preview:
+  #         requires:
+  #           - build-preview
+  #     - build-live
+  #     - deploy-live:
+  #         requires:
+  #           - build-live
