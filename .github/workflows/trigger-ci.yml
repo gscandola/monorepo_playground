@@ -10,7 +10,6 @@ jobs:
     steps:
       - uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.1.0
         with:
-          #Value put here to test between pre-release and release
-          GHA_Meta: "release"
+          GHA_Meta: "[{\"name\":\"@sp/form-app\",\"version\":\"0.2.1-pre.1\"},{\"name\":\"@sp/form-shell\",\"version\":\"0.0.8-pre.0\"}]
         env:
           CCI_TOKEN: ${{ secrets.CCI_TOKEN }}
