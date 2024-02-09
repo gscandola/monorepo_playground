@@ -22,7 +22,7 @@ jobs:
       - run:
           name: Generate Pipeline continue_config.yml file
           command: |
-            ./scripts/ci/generate_config.sh ${TARGET_VERSIONS}
+            .circleci/scripts/generate_config.sh ${TARGET_VERSIONS}
       - continuation/continue:
           configuration_path: generated_config.yml # use newly generated config to continue
           parameters: "{isPreRelease:true}"
