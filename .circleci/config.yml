@@ -40,7 +40,7 @@ jobs:
             .circleci/scripts/generate_config.sh
       - continuation/continue:
           configuration_path: .circleci/continue_config.yml # use freshly updated config to continue
-          parameters: '{"GHA_Meta":<< pipeline.parameters.GHA_Meta >>}'
+          parameters: '{"GHA_Meta":"<< pipeline.parameters.GHA_Meta >>"}'
 
 # our single workflow, that triggers the setup job defined above
 workflows:
