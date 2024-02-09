@@ -7,7 +7,7 @@ setup: true
 parameters:
   isPreRelease:
     type: boolean
-    default: true
+    default: false
 
 # the continuation orb is required in order to use dynamic configuration
 orbs:

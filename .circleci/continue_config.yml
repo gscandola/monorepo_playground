@@ -94,6 +94,12 @@ jobs:
       - deploy:
           target_env: "preview"
           package: << parameters.package >>
+  fake-deploy-live:
+    docker: *default_docker
+    resource_class: small
+    steps:
+    - run:
+        command: echo "Here we go to live env"
 
   # build-live:
   #   docker: *default_docker
@@ -129,16 +135,8 @@ workflows:
               package: []
           requires:
             - build-<< matrix.package >>
-  # build_deploy_preview_and_live:
-  #   when:
-  #     and:
-  #       - equal: ["release", << pipeline.parameters.GHA_Action >>]
-  #   jobs:
-  #     - build-preview
-  #     - deploy-preview:
-  #         requires:
-  #           - build-preview
-  #     - build-live
-  #     - deploy-live:
-  #         requires:
-  #           - build-live
+  build_deploy_preview_and_live:
+    when:
+      equal: [false, << pipeline.parameters.isPreRelease >>]
+    jobs:
+      - fake-deploy-live
