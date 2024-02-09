@@ -34,14 +34,14 @@ jobs:
           condition: << pipeline.parameters.isPreRelease >>
           steps:
             - continuation/continue:
-              configuration_path: .circleci/continue_config.yml # use freshly updated config to continue
-              parameters: '{"isPreRelease":true}'
+                configuration_path: .circleci/continue_config.yml # use freshly updated config to continue
+                parameters: '{"isPreRelease":true}'
       - unless:
           condition: << pipeline.parameters.isPreRelease >>
           steps:
             - continuation/continue:
-              configuration_path: .circleci/continue_config.yml # use freshly updated config to continue
-              parameters: '{"isPreRelease":false}'
+                configuration_path: .circleci/continue_config.yml # use freshly updated config to continue
+                parameters: '{"isPreRelease":false}'
 
 # our single workflow, that triggers the setup job defined above
 workflows:
