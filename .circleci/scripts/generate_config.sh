@@ -13,3 +13,6 @@ mv ./yq "${HOME}/.local/bin/"
 # We use yq to replace the package key, this is the only edit in place we need
 yq e ".workflows.build_deploy_preview.jobs[0].\"build-preview\".matrix.parameters.\"package\" = $target_packages" -i .circleci/continue_config.yml
 yq e ".workflows.build_deploy_preview.jobs[0].\"deploy-preview\".matrix.parameters.\"package\" = $target_packages" -i .circleci/continue_config.yml
+
+# Debug
+cat .circleci/continue_config.yml
