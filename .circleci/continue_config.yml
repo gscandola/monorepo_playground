@@ -116,17 +116,19 @@ workflows:
       equal: [true, << pipeline.parameters.isPreRelease >>]
     jobs:
       - build-preview:
+          name: build-<< matrix.package >>
           matrix:
             parameters:
               # Dynamically injected and written during setup phase
               package: []
       - deploy-preview:
+          name: deploy-<< matrix.package >>
           matrix:
             parameters:
               # Dynamically injected and written during setup phase
               package: []
           requires:
-            - build-preview
+            - build-<< matrix.package >>
   # build_deploy_preview_and_live:
   #   when:
   #     and:
