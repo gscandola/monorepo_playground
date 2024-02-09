@@ -1,0 +1,39 @@
+version: 2.1
+
+# --------------- Parameters (from Github Actions) ---------------
+parameters:
+    GHA_Actor:
+        type: string
+        default: ''
+    GHA_Action:
+        type: string
+        default: ''
+    GHA_Event:
+        type: string
+        default: ''
+    GHA_Meta:
+        type: string
+        default: ''
+
+
+# our defined job, and its steps
+jobs:
+  foo:
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - checkout # checkout code
+      - run:
+          name: test node execution
+          command: |
+            echo "export TARGET_PACKAGES=\"$(node .circleci/scripts/getPackageNames.js '<< pipeline.parameters.GHA_Meta >>')\"" >> "$BASH_ENV"
+      - run:
+          name: debug
+          command: |
+            echo $TARGET_PACKAGES
+workflows:
+  foo:
+    # Workflow run when CI was triggered from a GHAction
+    when: << pipeline.parameters.GHA_Action >>
+    jobs:
+      - foo

@@ -90,12 +90,35 @@ jobs:
       - deploy:
           target_env: "preview"
           package: << parameters.package >>
+
   fake-deploy-live:
     docker: *default_docker
     resource_class: small
     steps:
-    - run:
-        command: echo "Here we go to live env"
+      - run:
+          command: echo "Here we go to live env"
+
+  halt-if-release:
+    docker: *default_docker
+    resource_class: small
+    steps:
+      - run: |
+          type=$(node .circleci/scripts/getReleaseType.js '<< pipeline.parameters.GHA_Meta >>')
+
+          if [ "$type" = "release" ]; then
+              circleci-agent step halt
+          fi
+
+  halt-if-prerelease:
+    docker: *default_docker
+    resource_class: small
+    steps:
+      - run: |
+          type=$(node .circleci/scripts/getReleaseType.js '<< pipeline.parameters.GHA_Meta >>')
+
+          if [ "$type" = "pre-release" ]; then
+              circleci-agent step halt
+          fi
 
   # build-live:
   #   docker: *default_docker
@@ -114,15 +137,18 @@ jobs:
 # --------------- Jobs ---------------
 workflows:
   build_deploy_preview:
-    when:
-      equal: ['pre-release', << pipeline.parameters.GHA_Meta >>]
+    # when:
+    #   equal: ['pre-release', << pipeline.parameters.GHA_Meta >>]
     jobs:
+      - halt-if-release
       - build-preview:
           name: build-<< matrix.package >>
           matrix:
             parameters:
               # Dynamically injected and written during setup phase
               package: []
+          requires:
+            - halt-if-release
       - deploy-preview:
           name: deploy-<< matrix.package >>
           matrix:
@@ -132,7 +158,10 @@ workflows:
           requires:
             - build-<< matrix.package >>
   build_deploy_preview_and_live:
-    when:
-      equal: ['release', << pipeline.parameters.GHA_Meta >>]
+    # when:
+    #   equal: ['release', << pipeline.parameters.GHA_Meta >>]
     jobs:
-      - fake-deploy-live
+      - halt-if-prerelease
+      - fake-deploy-live:
+          requires:
+            - halt-if-prerelease

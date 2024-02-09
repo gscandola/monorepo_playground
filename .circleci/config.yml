@@ -1,5 +1,8 @@
 version: 2.1
 
+# this allows you to use CircleCI's dynamic configuration feature
+setup: true
+
 # --------------- Parameters (from Github Actions) ---------------
 parameters:
     GHA_Actor:
@@ -15,25 +18,28 @@ parameters:
         type: string
         default: ''
 
+# the continuation orb is required in order to use dynamic configuration
+orbs:
+  continuation: circleci/continuation@1.0.0
 
 # our defined job, and its steps
 jobs:
-  foo:
-    docker:
-      - image: cimg/node:lts
+  setup:
+    executor: continuation/default
     steps:
       - checkout # checkout code
+        # https://discuss.circleci.com/t/dynamically-set-parameter-values-of-matrix/47172
       - run:
-          name: test node execution
+          name: Generate Pipeline continue_config.yml file
           command: |
-            echo "export TARGET_PACKAGES=\"$(node .circleci/scripts/getPackageNames.js '<< pipeline.parameters.GHA_Meta >>')\"" >> "$BASH_ENV"
-      - run:
-          name: debug
-          command: |
-            echo $TARGET_PACKAGES
+            .circleci/scripts/generate_config.sh '<< pipeline.parameters.GHA_Meta >>'
+      - continuation/continue:
+          configuration_path: .circleci/continue_config.yml # use freshly updated config to continue
+
+# our single workflow, that triggers the setup job defined above
 workflows:
-  foo:
+  setup:
     # Workflow run when CI was triggered from a GHAction
     when: << pipeline.parameters.GHA_Action >>
     jobs:
-      - foo
+      - setup
