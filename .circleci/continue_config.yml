@@ -1,10 +1,19 @@
 version: 2.1
 
-# --------------- Parameters ---------------
+# --------------- Parameters (from Github Actions) ---------------
 parameters:
-  GHA_Meta:
-    type: string
-    default: ""
+    GHA_Actor:
+        type: string
+        default: ''
+    GHA_Action:
+        type: string
+        default: ''
+    GHA_Event:
+        type: string
+        default: ''
+    GHA_Meta:
+        type: string
+        default: ''
 
 # --------------- Alias ---------------
 default_docker: &default_docker
