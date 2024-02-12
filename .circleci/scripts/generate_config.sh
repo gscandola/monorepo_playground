@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -o errexit -o pipefail
 
-#$1 must be the JSON published packages from GHAction
-target_packages=$(node .circleci/scripts/getPackageNames.js $1)
+#$TARGET_PACKAGES must be the JSON published packages from GHAction
+target_packages=$TARGET_PACKAGES
 
 echo "Installing yq..."
 curl -s -L -o yq "https://github.com/mikefarah/yq/releases/download/v4.40.7/yq_linux_amd64"
