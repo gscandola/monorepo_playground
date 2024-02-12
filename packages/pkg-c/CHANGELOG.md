@@ -1,5 +1,11 @@
 # pkg-c
 
+## 0.1.0
+
+### Minor Changes
+
+- 7532b17: Add new fox doc
+
 ## 0.1.0-pre.0
 
 ### Minor Changes

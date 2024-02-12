@@ -2,12 +2,9 @@
   "mode": "pre",
   "tag": "pre",
   "initialVersions": {
-    "pkg-a": "0.4.2",
+    "pkg-a": "0.4.3",
     "pkg-b": "0.1.0",
-    "pkg-c": "0.0.2"
+    "pkg-c": "0.1.0"
   },
-  "changesets": [
-    "gentle-taxis-flow",
-    "ninety-pianos-prove"
-  ]
+  "changesets": []
 }
