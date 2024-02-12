@@ -42,14 +42,14 @@ jobs:
     resource_class: small
     executor: continuation/default
     steps:
+      - checkout # checkout code
       - attach_workspace:
           at: .
       - run: |
           cat bash.env >> $BASH_ENV
       - run: | # debug
           printenv TARGET_PACKAGES
-      - checkout # checkout code
-        # https://discuss.circleci.com/t/dynamically-set-parameter-values-of-matrix/47172
+      # https://discuss.circleci.com/t/dynamically-set-parameter-values-of-matrix/47172
       - run:
           name: Generate Pipeline continue_config.yml file
           command: |
