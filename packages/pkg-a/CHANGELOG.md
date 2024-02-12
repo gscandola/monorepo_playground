@@ -1,5 +1,11 @@
 # pkg-a
 
+## 0.4.2-pre.0
+
+### Patch Changes
+
+- 3a3e2e8: Add piou piou
+
 ## 0.4.1
 
 ### Patch Changes
