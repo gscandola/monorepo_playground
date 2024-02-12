@@ -107,7 +107,8 @@ jobs:
           type=$(node .circleci/scripts/getReleaseType.js '<< pipeline.parameters.GHA_Meta >>')
 
           echo $type
-
+          #just to test
+          circleci-agent step halt
           if [ "$type" = "release" ]; then
               circleci-agent step halt
           fi
@@ -121,7 +122,8 @@ jobs:
           type=$(node .circleci/scripts/getReleaseType.js '<< pipeline.parameters.GHA_Meta >>')
 
           echo $type
-
+          #just to test
+          circleci-agent step halt
           if [ "$type" = "pre-release" ]; then
               circleci-agent step halt
           fi
