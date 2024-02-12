@@ -58,9 +58,11 @@ jobs:
       #  - env to target, from the published version number
       - name: Trigger CircleCI for deploy
         if: steps.changesets.outputs.published == 'true'
+        uses: CircleCI-Public/trigger-circleci-pipeline-action@v1.1.0
         env:
-          PACKAGES: ${{steps.changesets.outputs.publishedPackages}}
-        run: echo "Published = $PACKAGES"
+          CCI_TOKEN: ${{ secrets.CCI_TOKEN }}
+        with:
+          GHA_Meta: ${{steps.changesets.outputs.publishedPackages}}
 
       # This step runs only if `changesets` step published something (pre-release(s) or release(s))
       # But we really need it only when published packages are pre-releases related.

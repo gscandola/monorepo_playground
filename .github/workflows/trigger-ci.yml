@@ -2,7 +2,8 @@
 on:
   push:
     branches:
-      - main
+      # Disable this workflow for now but giving a never matching branch name
+      - main-disabled-for-now
 
 jobs:
   trigger-ci:
