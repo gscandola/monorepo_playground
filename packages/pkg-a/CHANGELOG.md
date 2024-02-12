@@ -1,5 +1,11 @@
 # pkg-a
 
+## 0.4.3
+
+### Patch Changes
+
+- c74b2b3: Add final notice
+
 ## 0.4.3-pre.0
 
 ### Patch Changes
