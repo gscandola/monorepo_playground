@@ -95,26 +95,27 @@ jobs:
           target_env: "preview"
           package: << parameters.package >>
 
-  fake-deploy-live:
+  build-live:
     docker: *default_docker
     resource_class: small
+    parameters:
+      package:
+        type: string
     steps:
-      - run:
-          command: echo "Here we go to live env"
+      - build:
+          target_env: "live"
+          package: << parameters.package >>
 
-  # build-live:
-  #   docker: *default_docker
-  #   resource_class: small
-  #   steps:
-  #     - build:
-  #         target_env: "live"
-
-  # deploy-live:
-  #   docker: *default_docker
-  #   resource_class: small
-  #   steps:
-  #     - deploy:
-  #         target_env: "live"
+  deploy-live:
+    docker: *default_docker
+    resource_class: small
+    parameters:
+      package:
+        type: string
+    steps:
+      - deploy:
+          target_env: "live"
+          package: << parameters.package >>
 
 # --------------- Jobs ---------------
 workflows:
@@ -123,21 +124,48 @@ workflows:
       equal: ['pre-release', << pipeline.parameters.releaseType >>]
     jobs:
       - build-preview:
-          name: build-<< matrix.package >>
+          name: build-preview-<< matrix.package >>
           matrix:
             parameters:
               # Dynamically injected and written during setup phase
               package: []
       - deploy-preview:
-          name: deploy-<< matrix.package >>
+          name: deploy-preview-<< matrix.package >>
           matrix:
             parameters:
               # Dynamically injected and written during setup phase
               package: []
           requires:
-            - build-<< matrix.package >>
+            - build-preview-<< matrix.package >>
   build_deploy_preview_and_live:
     when:
       equal: ['release', << pipeline.parameters.releaseType >>]
     jobs:
-      - fake-deploy-live
+      - build-preview:
+          name: build-preview-<< matrix.package >>
+          matrix:
+            parameters:
+              # Dynamically injected and written during setup phase
+              package: []
+      - deploy-preview:
+          name: deploy-preview-<< matrix.package >>
+          matrix:
+            parameters:
+              # Dynamically injected and written during setup phase
+              package: []
+          requires:
+            - build-preview-<< matrix.package >>
+      - build-live:
+          name: build-live-<< matrix.package >>
+          matrix:
+            parameters:
+              # Dynamically injected and written during setup phase
+              package: []
+      - deploy-live:
+          name: deploy-live-<< matrix.package >>
+          matrix:
+            parameters:
+              # Dynamically injected and written during setup phase
+              package: []
+          requires:
+            - build-live-<< matrix.package >>
