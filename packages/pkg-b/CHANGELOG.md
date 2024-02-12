@@ -1,5 +1,11 @@
 # pkg-b
 
+## 0.2.0
+
+### Minor Changes
+
+- a1f3388: Add coucou
+
 ## 0.2.0-pre.0
 
 ### Minor Changes
