@@ -24,7 +24,7 @@ orbs:
 
 # our defined job, and its steps
 jobs:
-  set-packages-in-env:
+  set-env-vars:
     resource_class: small
     docker:
       - image: cimg/node:lts
@@ -32,6 +32,8 @@ jobs:
       - checkout
       - run: |
           echo "export TARGET_PACKAGES=$(node .circleci/scripts/getPackageNames.js '<< pipeline.parameters.GHA_Meta >>' | sed 's/"/\\"/g')" >> $BASH_ENV
+      - run: |
+          echo "export RELEASE_TYPE=$(node .circleci/scripts/getReleaseType.js '<< pipeline.parameters.GHA_Meta >>'" >> $BASH_ENV
       - run: |
           cp $BASH_ENV bash.env
       - persist_to_workspace:
@@ -49,6 +51,7 @@ jobs:
           cat bash.env >> $BASH_ENV
       - run: | # debug
           printenv TARGET_PACKAGES
+          printenv RELEASE_TYPE
       # https://discuss.circleci.com/t/dynamically-set-parameter-values-of-matrix/47172
       - run:
           name: Generate Pipeline continue_config.yml file
@@ -64,7 +67,7 @@ workflows:
     # Workflow run when CI was triggered from a GHAction
     when: << pipeline.parameters.GHA_Action >>
     jobs:
-      - set-packages-in-env
+      - set-env-vars
       - setup-config:
           requires:
-            - set-packages-in-env
+            - set-env-vars
