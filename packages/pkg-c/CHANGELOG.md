@@ -1,5 +1,11 @@
 # pkg-c
 
+## 0.1.1
+
+### Patch Changes
+
+- e08c806: Typo
+
 ## 0.1.1-pre.0
 
 ### Patch Changes

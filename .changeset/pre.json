@@ -3,11 +3,8 @@
   "tag": "pre",
   "initialVersions": {
     "pkg-a": "0.4.3",
-    "pkg-b": "0.1.0",
-    "pkg-c": "0.1.0"
+    "pkg-b": "0.2.0",
+    "pkg-c": "0.1.1"
   },
-  "changesets": [
-    "rare-toys-applaud",
-    "rotten-ladybugs-count"
-  ]
+  "changesets": []
 }
