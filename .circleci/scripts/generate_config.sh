@@ -9,9 +9,9 @@ mv ./yq "${HOME}/.local/bin/"
 
 # We use yq to replace the package key, this is the only edit in place we need
 # TODO find a clever way to target appropriate job instead of using numeric index
-yq e ".workflows.build_deploy_preview.jobs[1].\"build-preview\".matrix.parameters.\"package\" = $TARGET_PACKAGES" -i .circleci/continue_config.yml
+yq e ".workflows.build_deploy_preview.jobs[0].\"build-preview\".matrix.parameters.\"package\" = $TARGET_PACKAGES" -i .circleci/continue_config.yml
 # TODO find a clever way to target appropriate job instead of using numeric index
-yq e ".workflows.build_deploy_preview.jobs[2].\"deploy-preview\".matrix.parameters.\"package\" = $TARGET_PACKAGES" -i .circleci/continue_config.yml
+yq e ".workflows.build_deploy_preview.jobs[1].\"deploy-preview\".matrix.parameters.\"package\" = $TARGET_PACKAGES" -i .circleci/continue_config.yml
 
 # Release Type param
 yq e ".parameters.releaseType.default = \"$RELEASE_TYPE\"" -i .circleci/continue_config.yml
