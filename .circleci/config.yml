@@ -31,7 +31,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          echo "export TARGET_PACKAGES=$(node .circleci/scripts/getPackageNames.js '<< pipeline.parameters.GHA_Meta >>')" >> $BASH_ENV
+          echo "export TARGET_PACKAGES=$(node .circleci/scripts/getPackageNames.js '<< pipeline.parameters.GHA_Meta >>' | sed 's/"/\\"/g')" >> $BASH_ENV
       - run: |
           cp $BASH_ENV bash.env
       - persist_to_workspace:
