@@ -117,13 +117,14 @@ jobs:
           target_env: "live"
           package: << parameters.package >>
 
-# --------------- Jobs ---------------
+# --------------- Workflows ---------------
 workflows:
   build_deploy_preview:
     when:
       equal: ['pre-release', << pipeline.parameters.releaseType >>]
     jobs:
       - build-preview:
+          context: ctx-<< matrix.package >>
           name: build-preview-<< matrix.package >>
           matrix:
             parameters:
