@@ -1,6 +1,7 @@
 version: 2.1
 
 # this allows you to use CircleCI's dynamic configuration feature
+# paired with the circleci/continuation orb
 setup: true
 
 # --------------- Parameters (from Github Actions) ---------------

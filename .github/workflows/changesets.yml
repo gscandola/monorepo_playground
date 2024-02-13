@@ -11,15 +11,6 @@ jobs:
   run-changesets:
     name: Run changesets
     runs-on: ubuntu-latest
-    # TODO Permission are set on repository settings and should be enough
-    # permissions:
-    #   actions: write
-    #   pull-requests: write
-    #   statuses: write
-    #   contents: write
-    #   issues: write
-    #   security-events: write
-    #   pages: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
