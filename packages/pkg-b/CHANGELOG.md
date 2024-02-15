@@ -1,5 +1,11 @@
 # pkg-b
 
+## 0.2.1
+
+### Patch Changes
+
+- 12586e0: Fix B.
+
 ## 0.2.1-pre.0
 
 ### Patch Changes

@@ -2,13 +2,9 @@
   "mode": "pre",
   "tag": "pre",
   "initialVersions": {
-    "pkg-a": "0.4.3",
-    "pkg-b": "0.2.0",
+    "pkg-a": "0.5.0",
+    "pkg-b": "0.2.1",
     "pkg-c": "0.1.1"
   },
-  "changesets": [
-    "fair-zebras-give",
-    "long-chairs-wash",
-    "tasty-birds-eat"
-  ]
+  "changesets": []
 }
