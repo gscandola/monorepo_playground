@@ -7,6 +7,7 @@
     "pkg-c": "0.1.1"
   },
   "changesets": [
+    "fair-zebras-give",
     "long-chairs-wash",
     "tasty-birds-eat"
   ]
