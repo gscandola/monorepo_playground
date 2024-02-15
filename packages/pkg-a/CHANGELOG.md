@@ -1,5 +1,11 @@
 # pkg-a
 
+## 0.5.0-pre.1
+
+### Patch Changes
+
+- 606b6f3: Fix A
+
 ## 0.5.0-pre.0
 
 ### Minor Changes
