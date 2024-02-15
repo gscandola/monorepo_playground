@@ -1,5 +1,11 @@
 # pkg-a
 
+## 0.5.0-pre.0
+
+### Minor Changes
+
+- 48c5d3c: Add feature A.
+
 ## 0.4.3
 
 ### Patch Changes
