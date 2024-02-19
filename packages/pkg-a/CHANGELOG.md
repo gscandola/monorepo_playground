@@ -1,5 +1,11 @@
 # pkg-a
 
+## 0.6.0-pre.0
+
+### Minor Changes
+
+- a20da95: Add feat A
+
 ## 0.5.0
 
 ### Minor Changes
