@@ -26,6 +26,8 @@ See dedicated [release workflow documentation](./docs/release-workflow.md).
   - `/assets/{apps,mfes}/{identifier}/{version}/{client,server}/remoteEntry.js`
 - Ask to Ayoub about identifiers in mfe/apps url (convention etc)
 - Ask to Ayoub for the wording "samples" or "shells" for Idea 3
+- `G. P.` poke us during a demo to ask what about features merges on main for a MFE A and other one merges on main for a MFE B: What happen if we want to deliver only MFE A in preview/Prod
+  - This is the purpose of the monorepo, all packages are linked, thus the real question is: do we really want a monorepo if this case happen ? Or should we let each MFE its autonomy in its dedicated repository, with common tools put a dedicated aside repository (ie: use of "the constellation" solution instead of the one presented here: "the warehouse")
 
 # Miscellaneous
 

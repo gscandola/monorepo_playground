@@ -9,4 +9,6 @@ A single shell, capable to switch (on the fly ? at build time ?) to appropriate 
 
 Lots of complexity inside the shell, must be built several times with different flags (!= scenarios, != custom props).
 
-Potentially not the best choice.
+~~Potentially not the best choice.~~
+
+Seen with `A.`, it could potentially be a coice de re-challenge.
